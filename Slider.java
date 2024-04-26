@@ -32,4 +32,8 @@ public class Slider extends View {
         sliderX = x;
         invalidate();
     }
+
+    public float getSliderX() {
+        return sliderX;
+    }
 }

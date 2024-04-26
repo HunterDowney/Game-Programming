@@ -154,6 +154,10 @@ public class GameThread extends Thread {
         return false; // The brick isn't active
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
     // Create and add Bricks to the bricks ArrayList
     public static void fillBricks(GameThread game) {
         game.bricks = new ArrayList<>();

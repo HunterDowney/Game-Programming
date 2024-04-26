@@ -9,25 +9,29 @@ import android.view.SurfaceView;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameThread gameThread;
+    private Slider slider;
 
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
+        slider = new Slider(context, null); // Initialize the slider instance
     }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
+        slider = new Slider(context, attrs); // Initialize the slider instance
     }
 
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         getHolder().addCallback(this);
+        slider = new Slider(context, attrs); // Initialize the slider instance
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        gameThread = new GameThread(holder, getWidth(), getHeight());
+        gameThread = new GameThread(holder, getWidth(), getHeight(), slider); // Pass the slider instance
         gameThread.start();
     }
 
@@ -38,10 +42,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        gameThread.running = false;
         boolean retry = true;
-
-        while (retry) {
+        while (retry && gameThread.isRunning()) { // Use isRunning() method
             try {
                 gameThread.join();
                 retry = false;
